@@ -1,12 +1,103 @@
 @import "tailwindcss";
 
 @theme {
-  --background: black;
-  --foreground: white;
+  /* Color Palette */
+  --color-primary: #2a1a10; /* Cokelat Tua pekat, seperti kopi */
+  --color-secondary: #f0ebe3; /* Krem hangat, seperti busa latte */
+  --color-accent: #8d6e63; /* Cokelat muda, untuk tombol atau link */
+  --color-text: #333333; /* Abu-abu sangat gelap untuk teks utama */
+
+  /* Semantic Colors */
+  --background: var(--color-secondary);
+  --foreground: var(--color-text);
 }
 
 body {
   background-color: var(--background);
   color: var(--foreground);
-  font-family: var(--font-inter);
+  font-family: var(--font-playfair);
 }
+
+@utility flexc {
+  @apply flex items-center justify-center;
+}
+@utility flexcc {
+  @apply flex flex-col items-center justify-center;
+}
+@utility clicked {
+  @apply cursor-pointer active:scale-95 hover:scale-105;
+}
+@utility transall {
+  @apply transition-all duration-100 ease-in-out;
+}
+@utility transcenter {
+  @apply fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+@utility atranscenter {
+  @apply absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2;
+}
+
+@utility animate-pulseku {
+  animation: pulseku 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@utility animate-pulseku-bounce {
+  animation: pulseku-bounce 1s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes pulseku {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@keyframes pulseku-bounce {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.01);
+  }
+}
+
+/* Custom Scrollbar - Always Visible */
+/* .scrollbar-visible {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.3) rgba(0, 0, 0, 0.1);
+}
+
+.scrollbar-visible::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollbar-visible::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.scrollbar-visible::-webkit-scrollbar-thumb {
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.scrollbar-visible::-webkit-scrollbar-track {
+  visibility: visible !important;
+  opacity: 1 !important;
+} */

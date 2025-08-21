@@ -1,59 +1,12 @@
 "use client";
 
-import { motion } from "./components/FramerMotionClient";
-import Link from "next/link";
+import HeroSection from "./components/HeroSection";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center text-center">
       {/* Hero Section */}
-      <motion.section
-        className="relative w-full h-screen flex items-center justify-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1 }}
-      >
-        {/* Background image placeholder */}
-        <div className="absolute inset-0 bg-gradient-to-br from-yellow-900 via-yellow-700 to-black opacity-80"></div>
-        <div className="absolute inset-0">
-          {/* Placeholder for a background video or image */}
-          <div className="w-full h-full bg-cover bg-center" />
-          <p className="absolute bottom-4 right-4 text-white text-xs">
-            Ingat untuk menambahkan video atau gambar latar belakang disini.
-          </p>
-        </div>
-
-        <div className="relative z-10 text-white p-4">
-          <motion.h1
-            className="text-5xl md:text-7xl font-extrabold mb-4"
-            initial={{ y: -50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
-          >
-            Aroma Bumi Roasters
-          </motion.h1>
-          <motion.p
-            className="text-lg md:text-2xl mb-8"
-            initial={{ y: 50, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-          >
-            Crafting the Perfect Cup of Indonesian Coffee
-          </motion.p>
-          <motion.div
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-          >
-            <Link
-              href="/order"
-              className="bg-white text-yellow-900 font-bold py-3 px-8 rounded-full text-lg hover:bg-yellow-100 transition-colors"
-            >
-              Order Now
-            </Link>
-          </motion.div>
-        </div>
-      </motion.section>
+     <HeroSection />
 
       {/* Featured Products Section */}
       <section className="w-full py-20 bg-gray-50">
