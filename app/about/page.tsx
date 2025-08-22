@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
   return (
-    <div className="container mx-auto px-6 py-8">
+    <div className="container mx-auto px-6 py-8 pt-24">
       <h1 className="text-3xl font-bold text-center text-yellow-900 mb-8">
         About Aroma Bumi Roasters
       </h1>

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { motion } from "../FramerMotionClient";
+import { motion } from "framer-motion";
 import ButtonHoverTopFlip from "../UILayouts/ButtonHoverTopFlip";
 import { useHeroAnimationStore } from "../../store/heroAnimationStore";
 
