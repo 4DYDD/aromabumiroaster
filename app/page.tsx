@@ -6,10 +6,10 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center text-center">
       {/* Hero Section */}
-     <HeroSection />
+      <HeroSection />
 
       {/* Featured Products Section */}
-      <section className="w-full py-20 bg-gray-50">
+      <section className="w-full py-20 bg-primary_dark">
         <div className="container mx-auto px-6">
           <h2 className="text-3xl font-bold text-center text-yellow-900 mb-12">
             Our Signature Beans

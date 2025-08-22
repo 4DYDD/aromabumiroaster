@@ -3,6 +3,7 @@
 @theme {
   /* Color Palette */
   --color-primary: #2a1a10; /* Cokelat Tua pekat, seperti kopi */
+  --color-primary_dark: #110c08; /* Cokelat Tua sangat pekat, seperti kopi hitam */
   --color-secondary: #f0ebe3; /* Krem hangat, seperti busa latte */
   --color-accent: #8d6e63; /* Cokelat muda, untuk tombol atau link */
   --color-text: #333333; /* Abu-abu sangat gelap untuk teks utama */
@@ -16,6 +17,15 @@ body {
   background-color: var(--background);
   color: var(--foreground);
   font-family: var(--font-playfair);
+}
+
+/* Font Families */
+@utility font-playfair {
+  font-family: var(--font-playfair);
+}
+
+@utility font-lato {
+  font-family: var(--font-lato);
 }
 
 @utility flexc {
