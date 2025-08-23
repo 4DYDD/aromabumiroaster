@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import ButtonHoverTopFlip from "../UILayouts/ButtonHoverTopFlip";
@@ -17,23 +19,18 @@ const HeroSection = () => {
   // ButtonHoverTopFlip: delay 2.6s + duration 2.6s = 5.2s total
   const longestAnimationTime = 5200; // 5.2 detik dalam milidetik
 
+  // Simple video handler - langsung play aja tanpa ribet
+  const handleVideoCanPlay = () => {
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 1.3; // Tetap percepat dikit
+      videoRef.current.play().catch(() => {
+        // Kalau gagal autoplay ya sudah, santai aja
+        console.log("Autoplay prevented, but that's okay 😊");
+      });
+    }
+  };
+
   useEffect(() => {
-    // Handle video loading dan playing dengan lebih aman
-    const handleVideoReady = async () => {
-      if (videoRef.current) {
-        try {
-          // Tunggu video siap, lalu play
-          await videoRef.current.play();
-        } catch (error) {
-          // Abaikan error jika auto-play tidak diizinkan browser
-          console.log("Auto-play prevented by browser:", error);
-        }
-      }
-    };
-
-    // Jalankan video handling
-    handleVideoReady();
-
     if (!hasAnimated) {
       // Jalankan animasi untuk pertama kali
       const timer = setTimeout(() => {
@@ -57,39 +54,38 @@ const HeroSection = () => {
     <>
       <section className="h-[100vh] w-full bg-red-500">
         <main className="w-full h-full relative overflow-hidden">
-          <div className="atranscenter w-[140%] h-[140%] bg-primary z-[1]">
+          <div className="atranscenter w-[100%] h-[100%] bg-primary z-[1]">
             <video
               ref={videoRef}
-              src="/video/Video_Biji_Kopi_Jatuh_Slow_Motion.mp4"
+              src="/video/falling_coffee_beans.mp4"
               autoPlay
               loop
               muted
               playsInline
               preload="auto"
-              onLoadedData={() => {
-                // Video sudah dimuat, coba play lagi jika belum
-                if (videoRef.current && videoRef.current.paused) {
-                  videoRef.current.play().catch(() => {
-                    // Ignore error jika browser mencegah auto-play
-                  });
-                }
+              onCanPlay={handleVideoCanPlay} // Simple handler
+              onLoadStart={() => {
+                console.log("Video started loading... 🎬");
               }}
-              className="object-cover h-full relative pointer-events-none select-none"
+              onError={(e) => {
+                console.log("Video error, but let's keep going! 😅", e);
+              }}
+              className="object-cover h-full w-full relative pointer-events-none select-none"
               style={{
-                opacity: 1, // Selalu tampilkan video
-                transition: "none", // Hilangkan transisi loading
+                opacity: 1,
+                transition: "none",
               }}
             />
           </div>
 
           <motion.div
-            className="z-[2] relative w-full h-full flexcc text-white"
+            className="z-[5] relative w-full h-full flexcc text-white"
             initial={
               hasAnimated
-                ? { backgroundColor: "rgba(0, 0, 0, 0.8)" }
+                ? { backgroundColor: "rgba(0, 0, 0, 0.6)" }
                 : { backgroundColor: "rgba(0, 0, 0, 1)" }
             }
-            animate={{ backgroundColor: "rgba(0, 0, 0, 0.8)" }}
+            animate={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
             transition={
               hasAnimated
                 ? { duration: 0 }

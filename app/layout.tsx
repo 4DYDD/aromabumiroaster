@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Lato } from "next/font/google";
 import "./globals.css";
-import DefaultLayout from "./components/DefaultLayout";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -21,7 +20,7 @@ export const metadata: Metadata = {
     "Discover the finest Indonesian specialty coffee, roasted with passion.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -31,9 +30,7 @@ export default function RootLayout({
       <body
         className={`${playfair.variable} ${lato.variable} ${lato.className}`}
       >
-        <DefaultLayout>
-          <main className="min-h-screen">{children}</main>
-        </DefaultLayout>
+        <main className="min-h-screen">{children}</main>
       </body>
     </html>
   );

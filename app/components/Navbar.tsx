@@ -1,49 +1,36 @@
-import Link from "next/link";
+"use client";
+
+import { usePathname } from "next/navigation";
+import LineTabs from "./SyntaxUI/LineTabs";
+import { useHeroAnimationStore } from "../store/heroAnimationStore";
+import { useEffect } from "react";
 
 interface NavbarProps {
-  pathname: string;
+  notRoot: boolean;
 }
 
-export default function Navbar({ pathname }: NavbarProps) {
+export default function Navbar({ notRoot }: NavbarProps) {
+  const pathname = usePathname();
+  const { hasAnimated, isAnimating, startAnimation } = useHeroAnimationStore();
+
+  useEffect(() => {
+    // Gunakan startAnimation dari store yang mengembalikan cleanup function
+    const cleanup = startAnimation(pathname);
+
+    return cleanup; // Cleanup timeout saat component unmount atau pathname berubah
+  }, [pathname, startAnimation]);
+
   return (
-    <nav className="fixed lg:absolute top-0 left-0 w-full transform z-50">
-      <div className="flexc text-xs lg:text-base text-center w-full gap-5 h-20">
-        {[
-          {
-            text: "Home",
-            href: "/",
-          },
-          {
-            text: "About",
-            href: "/about",
-          },
-          {
-            text: "Order",
-            href: "/order",
-          },
-          {
-            text: "Contact",
-            href: "/contact",
-          },
-        ].map(({ text, href }) => {
-          return (
-            <Link
-              key={text}
-              className={`
-              w-[3.5rem] lg:w-[5rem] h-full flexc font-bold
-              ${
-                pathname !== "/"
-                  ? "bg-secondary text-primary/50 hover:text-primary/90"
-                  : "text-secondary/50 hover:text-secondary/90"
-              }
-              `}
-              href={href}
-            >
-              {text}
-            </Link>
-          );
-        })}
-      </div>
-    </nav>
+    <div
+      className={`fixed top-0 left-0 w-full transform z-50 
+      ${isAnimating ? "pointer-events-none" : "pointer-events-auto"}
+    `}
+    >
+      <LineTabs
+        hasAnimated={hasAnimated}
+        pathname={pathname}
+        notRoot={notRoot}
+      />
+    </div>
   );
 }
