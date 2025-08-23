@@ -3,5 +3,6 @@ export interface Product {
   name: string;
   price: number;
   origin: string;
+  description?: string; // Optional description property
   image?: string; // Optional image property
 }

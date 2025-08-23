@@ -5,6 +5,7 @@ interface VideoState {
   isPlaying: boolean;
   loadingError: string | null;
   downloadProgress: number; // 0-100 percentage
+  isFullyDownloaded: boolean; // true when progress reaches 100%
   setLoaded: (value: boolean) => void;
   setPlaying: (value: boolean) => void;
   setError: (error: string | null) => void;
@@ -17,11 +18,16 @@ export const useVideoStore = create<VideoState>((set) => ({
   isPlaying: false,
   loadingError: null,
   downloadProgress: 0,
+  isFullyDownloaded: false,
 
   setLoaded: (value) => set({ isLoaded: value }),
   setPlaying: (value) => set({ isPlaying: value }),
   setError: (error) => set({ loadingError: error }),
-  setDownloadProgress: (progress) => set({ downloadProgress: progress }),
+  setDownloadProgress: (progress) =>
+    set({
+      downloadProgress: progress,
+      isFullyDownloaded: progress >= 100,
+    }),
 
   resetVideo: () =>
     set({
@@ -29,6 +35,7 @@ export const useVideoStore = create<VideoState>((set) => ({
       isPlaying: false,
       loadingError: null,
       downloadProgress: 0,
+      isFullyDownloaded: false,
     }),
 }));
 
@@ -38,3 +45,12 @@ export const useVideoPlaying = () => useVideoStore((state) => state.isPlaying);
 export const useVideoError = () => useVideoStore((state) => state.loadingError);
 export const useVideoProgress = () =>
   useVideoStore((state) => state.downloadProgress);
+export const useVideoFullyDownloaded = () =>
+  useVideoStore((state) => state.isFullyDownloaded);
+
+// Hook untuk mengecek apakah perlu tampil loading screen
+export const useNeedLoadingScreen = () => {
+  return useVideoStore(
+    (state) => !state.isLoaded && state.downloadProgress < 100
+  );
+};

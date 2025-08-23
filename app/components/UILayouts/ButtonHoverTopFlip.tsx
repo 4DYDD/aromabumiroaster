@@ -1,5 +1,6 @@
 import React from "react";
-import { motion } from "../FramerMotionClient";
+import { motion } from "framer-motion";
+import Link from "next/link";
 
 interface ButtonHoverTopFlipProps {
   skipAnimation?: boolean;
@@ -23,7 +24,10 @@ const ButtonHoverTopFlip = ({
               }
         }
       >
-        <button className="group clicked !duration-200 relative text-[0.9rem] lg:text-[1.1rem] font-bold inline-flex h-12 w-[160px] lg:w-[220px] items-center justify-center overflow-hidden rounded-md border-2 border-secondary">
+        <Link
+          href="#product-list"
+          className="group clicked !duration-200 relative text-[0.9rem] lg:text-[1.1rem] font-bold inline-flex h-12 w-[160px] lg:w-[220px] items-center justify-center overflow-hidden rounded-md border-2 border-secondary"
+        >
           <div
             className="
           inline-flex
@@ -60,7 +64,7 @@ const ButtonHoverTopFlip = ({
           >
             Discover the Flavors
           </div>
-        </button>
+        </Link>
       </motion.div>
     </>
   );

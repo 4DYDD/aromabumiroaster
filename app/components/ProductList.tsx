@@ -1,75 +1,182 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { motion } from "./FramerMotionClient";
-import { useCartStore } from "../store/cartStore";
-import { BarLoader } from "react-spinners";
+import Image from "next/image";
 import { Product } from "../types";
 
-// Mock data for products
+// Mock data for products - ini bisa diganti dengan fetch dari API
 const mockProducts: Product[] = [
-  { id: "1", name: "Aceh Gayo", price: 120000, origin: "Aceh" },
-  { id: "2", name: "Toraja Sapan", price: 150000, origin: "Sulawesi" },
-  { id: "3", name: "Kintamani", price: 135000, origin: "Bali" },
-  { id: "4", name: "Java Preanger", price: 110000, origin: "Jawa Barat" },
+  {
+    id: "1",
+    name: "Aceh Gayo Premium",
+    price: 120000,
+    origin: "Aceh, Sumatera",
+    description:
+      "Kopi single origin dengan cita rasa earthy dan full body yang khas dari dataran tinggi Gayo.",
+  },
+  {
+    id: "2",
+    name: "Toraja Sapan Heritage",
+    price: 150000,
+    origin: "Tana Toraja, Sulawesi",
+    description:
+      "Kopi premium dengan aroma floral dan rasa fruity yang kompleks, diproses secara tradisional.",
+  },
+  {
+    id: "3",
+    name: "Kintamani Volcano",
+    price: 135000,
+    origin: "Kintamani, Bali",
+    description:
+      "Kopi vulkanik dengan karakter citrus yang bright dan aftertaste yang clean dan menyegarkan.",
+  },
+  {
+    id: "4",
+    name: "Java Preanger Classic",
+    price: 110000,
+    origin: "Preanger, Jawa Barat",
+    description:
+      "Kopi tradisional Jawa dengan body medium dan rasa cokelat yang seimbang, cocok untuk daily brew.",
+  },
+  {
+    id: "5",
+    name: "Flores Bajawa",
+    price: 145000,
+    origin: "Bajawa, Flores",
+    description:
+      "Kopi eksotik dengan aroma wine-like dan rasa dark chocolate yang intens.",
+  },
+  {
+    id: "6",
+    name: "Papua Wamena",
+    price: 160000,
+    origin: "Wamena, Papua",
+    description:
+      "Kopi rare dengan profil rasa yang unik, kombinasi herbal dan spicy dengan sweetness yang natural.",
+  },
 ];
 
-// This component simulates a data fetch
+// Server Component - no client-side state management
 export default function ProductList() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
-  const addToCart = useCartStore((state) => state.addToCart);
-
-  useEffect(() => {
-    // Simulate network delay
-    const timer = setTimeout(() => {
-      setProducts(mockProducts);
-      setLoading(false);
-    }, 1500); // 1.5 second delay
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (loading) {
-    return (
-      <div className="flex justify-center items-center h-64">
-        <BarLoader color="#78350f" />
-      </div>
-    );
-  }
-
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {products.map((product, index) => (
-        <motion.div
-          key={product.id}
-          className="bg-white rounded-lg shadow-lg overflow-hidden"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: index * 0.1 }}
-        >
-          {/* Placeholder for product image */}
-          <div className="w-full h-48 bg-gradient-to-br from-gray-300 to-gray-400"></div>
-          <p className="text-center text-sm text-gray-500 mt-2">
-            Ingat untuk menambahkan gambar produk disini.
+    <section id="product-list" className="w-full py-16 bg-secondary">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-12">
+          <h2 className="flexcc font-bold mb-4 font-playfair">
+            <span className="text-2xl lg:text-3xl text-accent">VARIASI</span>
+            <span className="text-3xl lg:text-4xl text-primary">
+              KOPI NUSANTARA
+            </span>
+          </h2>
+          <p className="text-base lg:text-lg px-5 lg:px-20 text-accent max-w-2xl mx-auto">
+            Nikmati cita rasa otentik kopi Indonesia dari berbagai daerah dengan
+            karakteristik yang unik dan khas
           </p>
-          <div className="p-6">
-            <h3 className="text-xl font-bold text-yellow-900">
-              {product.name}
-            </h3>
-            <p className="text-sm text-gray-500 mb-2">{product.origin}</p>
-            <p className="text-lg font-semibold text-gray-800">
-              Rp{product.price.toLocaleString("id-ID")}
-            </p>
-            <button
-              onClick={() => addToCart(product)}
-              className="mt-4 w-full bg-yellow-900 text-white py-2 rounded-lg hover:bg-yellow-800 transition-colors"
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {mockProducts.map((product) => (
+            <div
+              key={product.id}
+              className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border border-secondary"
             >
-              Add to Cart
-            </button>
-          </div>
-        </motion.div>
-      ))}
-    </div>
+              {/* Product Image Placeholder */}
+              <div className="relative h-56 bg-gradient-to-br from-accent to-primary overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-t from-primary/50 to-transparent"></div>
+                <div className="absolute z-[2] bottom-4 left-4 right-4">
+                  <span className="inline-block bg-secondary text-primary text-sm font-bold px-3 py-1 rounded-lg">
+                    {product.origin}
+                  </span>
+                </div>
+                {/* Coffee bean pattern overlay */}
+                <div className="absolute z-[1] inset-0 opacity-70">
+                  <div
+                    className="w-full h-full"
+                    style={{
+                      backgroundImage: `radial-gradient(circle at 25% 25%, #f0ebe3 2px, transparent 2px),
+                                     radial-gradient(circle at 75% 25%, #f0ebe3 1.5px, transparent 1.5px),
+                                     radial-gradient(circle at 25% 75%, #f0ebe3 2.5px, transparent 2.5px),
+                                     radial-gradient(circle at 75% 75%, #f0ebe3 1px, transparent 1px)`,
+                      backgroundSize:
+                        "40px 40px, 30px 30px, 50px 50px, 25px 25px",
+                    }}
+                  >
+                    <Image
+                      src="/images/coffee_banner_menu.jpg"
+                      alt="Coffee banner menu"
+                      priority
+                      width={4928}
+                      height={3264}
+                      className="w-full h-full object-cover "
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Product Info */}
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-primary mb-2 font-playfair">
+                  {product.name}
+                </h3>
+
+                <p className="text-sm text-accent mb-3 line-clamp-2">
+                  {product.description}
+                </p>
+
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex flex-col">
+                    <span className="text-2xl font-bold text-primary">
+                      Rp{product.price.toLocaleString("id-ID")}
+                    </span>
+                    <span className="text-xs text-accent">per 200g</span>
+                  </div>
+
+                  {/* Quality Badge */}
+                  <div className="flex items-center gap-1">
+                    <span className="text-yellow-500">★★★★★</span>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3">
+                  <button className="flex-1 bg-primary text-secondary py-3 rounded-lg font-semibold hover:bg-primary_dark transition-colors duration-200 active:scale-95">
+                    Tambah ke Keranjang
+                  </button>
+                  <button className="px-4 py-3 border-2 border-accent text-accent rounded-lg hover:bg-accent hover:text-white transition-all duration-200 active:scale-95">
+                    <svg
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Coffee Bean Icons */}
+                <div className="flex items-center justify-center mt-4 gap-1 opacity-30">
+                  {[...Array(5)].map((_, i) => (
+                    <span key={i} className="text-primary text-xs">
+                      ☕
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center mt-12">
+          <p className="text-accent mb-4">
+            Tidak menemukan kopi yang Anda cari?
+          </p>
+          <button className="bg-accent text-white px-8 py-3 rounded-lg hover:bg-primary transition-colors duration-200 font-semibold">
+            Lihat Semua Produk
+          </button>
+        </div>
+      </div>
+    </section>
   );
 }

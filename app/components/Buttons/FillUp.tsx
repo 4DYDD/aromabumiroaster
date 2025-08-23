@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { motion, AnimatePresence } from "../FramerMotionClient";
+import { motion, AnimatePresence } from "framer-motion";
 
 /**
  * Props for the FillUp button component.
