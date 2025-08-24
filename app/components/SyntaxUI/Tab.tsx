@@ -9,30 +9,43 @@ interface TabProps {
   goTo: string;
   icon: IconType;
   notRoot?: boolean;
+  needBackground?: boolean; // Tambahkan prop untuk styling dengan background
 }
 
-const Tab = ({ text, selected, goTo, icon: Icon, notRoot }: TabProps) => {
+const Tab = ({
+  text,
+  selected,
+  goTo,
+  icon: Icon,
+  needBackground = false,
+}: TabProps) => {
   const { isAnimating } = useHeroAnimationStore();
+
+  // Tentukan warna berdasarkan kondisi navbar
+  const getTextColor = () => {
+    if (needBackground) {
+      // Jika ada background (scroll/non-home), gunakan primary_dark
+      return selected
+        ? "text-primary_dark hover:text-primary_dark/90"
+        : "text-primary_dark/70 hover:text-primary_dark/90";
+    } else {
+      // Jika transparent (home page, no scroll), gunakan secondary
+      return selected
+        ? "text-secondary/80 hover:text-secondary/90"
+        : "text-secondary/50 hover:text-secondary/90";
+    }
+  };
+
+  const getUnderlineColor = () => {
+    return needBackground ? "bg-primary_dark" : "bg-secondary/80";
+  };
 
   return (
     <Link
       href={goTo}
-      className={` 
-        ${
-          notRoot
-            ? ` ${
-                selected
-                  ? "text-primary/70 hover:text-primary/90"
-                  : "text-primary/50 hover:text-primary/90"
-              }`
-            : `${
-                selected
-                  ? "text-secondary/80 hover:text-secondary/90"
-                  : "text-secondary/50 hover:text-secondary/90"
-              }`
-        } 
+      className={`${getTextColor()} 
         ${isAnimating ? "pointer-events-none" : "pointer-events-auto"}
-        relative flexcc rounded-md w-[4.8rem] lg:w-[7rem] h-[4rem] lg:h-[5rem] cursor-pointer text-[0.7rem] lg:text-sm font-bold transition-colors duration-200 !outline-none gap-1.5`}
+        relative flexcc rounded-md w-[4rem] lg:w-[6rem] h-[4rem] lg:h-[5rem] cursor-pointer text-[0.75rem] lg:text-sm font-bold transition-all duration-500 ease-out !outline-none gap-1.5`}
     >
       <Icon className="h-[1.85em] w-[1.85em] relative" />
       <span className="relative">{text}</span>
@@ -52,9 +65,7 @@ const Tab = ({ text, selected, goTo, icon: Icon, notRoot }: TabProps) => {
           className="absolute left-0 bottom-0 flex w-full justify-center"
         >
           <span
-            className={`z-0 h-[1.5px] lg:h-[3px] w-[60%] rounded-t-full 
-          ${!notRoot ? "bg-secondary/80" : "bg-primary/80"}
-            `}
+            className={`z-0 h-[1.5px] lg:h-[3px] w-[60%] rounded-t-full ${getUnderlineColor()}`}
           />
         </motion.div>
       )}

@@ -1,12 +1,15 @@
+"use client";
+
 import Image from "next/image";
 import { Product } from "../types";
+import { useCartStore } from "../store/cartStore";
 
 // Mock data for products - ini bisa diganti dengan fetch dari API
 const mockProducts: Product[] = [
   {
     id: "1",
     name: "Aceh Gayo Premium",
-    price: 120000,
+    price: 25000,
     origin: "Aceh, Sumatera",
     description:
       "Kopi single origin dengan cita rasa earthy dan full body yang khas dari dataran tinggi Gayo.",
@@ -14,7 +17,7 @@ const mockProducts: Product[] = [
   {
     id: "2",
     name: "Toraja Sapan Heritage",
-    price: 150000,
+    price: 30000,
     origin: "Tana Toraja, Sulawesi",
     description:
       "Kopi premium dengan aroma floral dan rasa fruity yang kompleks, diproses secara tradisional.",
@@ -22,7 +25,7 @@ const mockProducts: Product[] = [
   {
     id: "3",
     name: "Kintamani Volcano",
-    price: 135000,
+    price: 28000,
     origin: "Kintamani, Bali",
     description:
       "Kopi vulkanik dengan karakter citrus yang bright dan aftertaste yang clean dan menyegarkan.",
@@ -30,7 +33,7 @@ const mockProducts: Product[] = [
   {
     id: "4",
     name: "Java Preanger Classic",
-    price: 110000,
+    price: 15000,
     origin: "Preanger, Jawa Barat",
     description:
       "Kopi tradisional Jawa dengan body medium dan rasa cokelat yang seimbang, cocok untuk daily brew.",
@@ -38,7 +41,7 @@ const mockProducts: Product[] = [
   {
     id: "5",
     name: "Flores Bajawa",
-    price: 145000,
+    price: 22000,
     origin: "Bajawa, Flores",
     description:
       "Kopi eksotik dengan aroma wine-like dan rasa dark chocolate yang intens.",
@@ -46,15 +49,23 @@ const mockProducts: Product[] = [
   {
     id: "6",
     name: "Papua Wamena",
-    price: 160000,
+    price: 30000,
     origin: "Wamena, Papua",
     description:
       "Kopi rare dengan profil rasa yang unik, kombinasi herbal dan spicy dengan sweetness yang natural.",
   },
 ];
 
-// Server Component - no client-side state management
+// Client Component untuk cart functionality
 export default function ProductList() {
+  const { addToCart } = useCartStore();
+
+  const handleAddToCart = (product: Product) => {
+    addToCart(product);
+
+    console.log("Added to cart:", product.name);
+  };
+
   return (
     <section id="product-list" className="w-full py-16 bg-secondary">
       <div className="container mx-auto px-6">
@@ -120,12 +131,11 @@ export default function ProductList() {
                   {product.description}
                 </p>
 
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center justify-between mt-10 mb-4">
                   <div className="flex flex-col">
                     <span className="text-2xl font-bold text-primary">
                       Rp{product.price.toLocaleString("id-ID")}
                     </span>
-                    <span className="text-xs text-accent">per 200g</span>
                   </div>
 
                   {/* Quality Badge */}
@@ -136,7 +146,11 @@ export default function ProductList() {
 
                 {/* Action Buttons */}
                 <div className="flex gap-3">
-                  <button className="flex-1 bg-primary text-secondary py-3 rounded-lg font-semibold hover:bg-primary_dark transition-colors duration-200 active:scale-95">
+                  <button
+                    onClick={() => handleAddToCart(product)}
+                    data-add-cart={product.id}
+                    className="flex-1 bg-primary text-secondary py-3 rounded-lg font-semibold hover:bg-primary_dark transition-all duration-200 active:scale-95 focus:outline-none focus:ring-2 focus:ring-accent/50"
+                  >
                     Tambah ke Keranjang
                   </button>
                   <button className="px-4 py-3 border-2 border-accent text-accent rounded-lg hover:bg-accent hover:text-white transition-all duration-200 active:scale-95">
@@ -168,14 +182,14 @@ export default function ProductList() {
         </div>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-12">
+        {/* <div className="text-center mt-12">
           <p className="text-accent mb-4">
             Tidak menemukan kopi yang Anda cari?
           </p>
           <button className="bg-accent text-white px-8 py-3 rounded-lg hover:bg-primary transition-colors duration-200 font-semibold">
             Lihat Semua Produk
           </button>
-        </div>
+        </div> */}
       </div>
     </section>
   );
