@@ -34,8 +34,8 @@ const LineTabs = ({
     <div className="w-full flexc justify-center px-4 lg:px-8">
       {/* Navigation Tabs - Center aligned */}
       <motion.div
-        initial={notRoot || hasAnimated ? undefined : { opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={notRoot || hasAnimated ? undefined : { opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={
           notRoot || hasAnimated
             ? undefined

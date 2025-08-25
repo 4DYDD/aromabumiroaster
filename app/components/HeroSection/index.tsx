@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { PulseLoader, ScaleLoader } from "react-spinners";
 import ButtonHoverTopFlip from "../UILayouts/ButtonHoverTopFlip";
@@ -8,6 +8,10 @@ import { useHeroAnimationStore } from "../../store/heroAnimationStore";
 import { useVideoStore } from "../../store/videoStore";
 
 const HeroSection = () => {
+  // State untuk device detection yang hydration-safe
+  const [isMobile, setIsMobile] = useState(false);
+  const [isClient, setIsClient] = useState(false);
+  // Animasi store
   const {
     hasAnimated,
     animationsComplete,
@@ -17,6 +21,7 @@ const HeroSection = () => {
 
   // Video store untuk menyimpan progress dan status
   const {
+    videoSource,
     isLoaded: isVideoReady,
     downloadProgress: progress,
     setLoaded: setIsVideoReady,
@@ -26,18 +31,38 @@ const HeroSection = () => {
 
   const videoRef = useRef<HTMLVideoElement>(null);
 
+  // useEffect untuk device detection yang hydration-safe
+  useEffect(() => {
+    setIsClient(true);
+
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkDevice();
+    window.addEventListener("resize", checkDevice);
+
+    return () => window.removeEventListener("resize", checkDevice);
+  }, []);
+
+  // handle video loading
   useEffect(() => {
     // Jika video sudah pernah dimuat, skip loading
     if (isVideoReady) {
       return;
     }
 
-    const videoUrl = "/video/falling_coffee_beans.mp4";
+    console.log(
+      `🎬 Loading Full HD video for ${
+        isMobile ? "mobile" : "desktop"
+      }: ${videoSource}`
+    );
 
     const loadVideoWithProgress = async () => {
       try {
-        const response = await fetch(videoUrl);
+        const response = await fetch(videoSource);
         const contentLength = response.headers.get("content-length");
+        console.log({ contentLength, videoSource });
         if (!contentLength) throw new Error("Content-Length header missing");
 
         const total = parseInt(contentLength, 10);
@@ -70,6 +95,7 @@ const HeroSection = () => {
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         setIsVideoReady(true);
+        console.log(`✅ Full HD video loaded successfully`);
       } catch (err) {
         console.error("Error loading video:", err);
         setError(err instanceof Error ? err.message : "Video loading failed");
@@ -84,12 +110,15 @@ const HeroSection = () => {
     };
 
     loadVideoWithProgress();
+    // setIsVideoReady(true);
   }, [
     isVideoReady,
     setProgress,
     setIsVideoReady,
     setError,
     animationsComplete,
+    videoSource,
+    isMobile,
   ]);
 
   // Durasi animasi
@@ -127,20 +156,24 @@ const HeroSection = () => {
               style={{ width: `${progress}%` }}
             />
           </div>
-          <p className="text-center mt-2 text-base font-bold gap-1 antialiased flexc !items-end">
-            <span>{progress}% Loading coffee experience</span>
+          <div className="text-center mt-2 text-base font-bold gap-1 antialiased flexc !items-end">
+            <span>Loading video for background</span>
             <PulseLoader
               className="mb-1"
               color="#f0ebe3"
               size={4}
               speedMultiplier={0.8}
             />
-          </p>
+          </div>
         </div>
 
-        <p className="text-center mt-2 text-xs text-secondary/70 animate-pulseku">
-          Preparing your premium coffee journey
-        </p>
+        <div className="text-center mt-2 text-xs text-secondary/70 animate-pulseku">
+          <div>
+            • {isClient ? (isMobile ? "Mobile" : "Desktop") : "Loading"}{" "}
+            optimized •
+          </div>
+          <div>Preparing your premium coffee journey </div>
+        </div>
       </section>
     );
   }
@@ -148,7 +181,9 @@ const HeroSection = () => {
   return (
     <section className="h-[100vh] w-full">
       <main className="w-full h-full relative overflow-hidden">
+        {/* VIDEO BACKGROUND */}
         <div className="absolute inset-0 bg-primary z-[1]">
+          {/* VIDEO FULL HD */}
           <video
             ref={videoRef}
             autoPlay
@@ -157,7 +192,7 @@ const HeroSection = () => {
             playsInline
             preload="auto"
             onCanPlay={handleVideoCanPlay}
-            src={`/video/falling_coffee_beans.mp4`}
+            src={videoSource}
             className="object-cover h-full w-full pointer-events-none select-none"
           />
         </div>
@@ -166,10 +201,16 @@ const HeroSection = () => {
           className="z-[5] relative w-full h-full flexcc text-white"
           initial={
             hasAnimated
-              ? { backgroundColor: "rgba(0, 0, 0, 0.4)" }
+              ? isClient && isMobile
+                ? { backgroundColor: "rgba(0, 0, 0, 0.5)" }
+                : { backgroundColor: "rgba(0, 0, 0, 0.2)" }
               : { backgroundColor: "rgba(0, 0, 0, 1)" }
           }
-          animate={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+          animate={
+            isClient && isMobile
+              ? { backgroundColor: "rgba(0, 0, 0, 0.5)" }
+              : { backgroundColor: "rgba(0, 0, 0, 0.2)" }
+          }
           transition={
             hasAnimated
               ? { duration: 0 }

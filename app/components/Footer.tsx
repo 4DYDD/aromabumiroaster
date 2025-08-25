@@ -30,6 +30,7 @@ export default function Footer() {
               <li>
                 Image by{" "}
                 <a
+                  target="_blank"
                   className="font-semibold text-accent"
                   href="https://pixabay.com/users/diapicard-1729295/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1105112"
                 >
@@ -37,6 +38,7 @@ export default function Footer() {
                 </a>{" "}
                 from{" "}
                 <a
+                  target="_blank"
                   className="font-semibold text-accent"
                   href="https://pixabay.com//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=1105112"
                 >

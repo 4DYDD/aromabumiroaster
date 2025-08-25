@@ -1,7 +1,7 @@
 import React from "react";
 import { GiCoffeeBeans } from "react-icons/gi";
 import { IoLeafOutline } from "react-icons/io5";
-import { MdLocalShipping } from "react-icons/md";
+import { MdTableRestaurant } from "react-icons/md";
 
 const Features = () => {
   return (
@@ -43,13 +43,14 @@ const Features = () => {
             {/* Feature 3 */}
             <div className="text-center group">
               <div className="w-20 h-20 bg-accent rounded-full mx-auto mb-4 flexcc transition-all duration-300 group-hover:scale-110 group-hover:bg-accent/80 group-hover:shadow-lg">
-                <MdLocalShipping className="text-white text-3xl transition-transform duration-300 group-hover:rotate-12" />
+                <MdTableRestaurant className="text-white text-3xl transition-transform duration-300 group-hover:rotate-12" />
               </div>
               <h3 className="text-xl font-semibold text-secondary mb-2 transition-colors group-hover:text-accent">
-                Fast Delivery
+                Cozy Atmosphere
               </h3>
               <p className="text-secondary/70 transition-colors group-hover:text-secondary/90">
-                Pengiriman cepat ke seluruh Indonesia dengan kemasan yang aman
+                Suasana hangat dan nyaman untuk menikmati kopi berkualitas
+                bersama teman
               </p>
             </div>
           </div>

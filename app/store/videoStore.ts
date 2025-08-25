@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 interface VideoState {
+  videoSource: string;
   isLoaded: boolean;
   isPlaying: boolean;
   loadingError: string | null;
@@ -14,6 +15,7 @@ interface VideoState {
 }
 
 export const useVideoStore = create<VideoState>((set) => ({
+  videoSource: "/video/fullhd_falling_coffee_beans.mp4",
   isLoaded: false,
   isPlaying: false,
   loadingError: null,

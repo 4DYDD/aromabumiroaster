@@ -43,9 +43,9 @@ const CartModal = ({ isOpen, onClose }: CartModalProps) => {
 
           {/* Cart Modal */}
           <motion.div
-            initial={{ x: "100%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            exit={{ x: "100%", opacity: 0 }}
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
             className="fixed right-0 top-0 flexcc h-[100dvh] w-full max-w-[80vw] lg:max-w-[25vw] bg-secondary shadow-2xl z-[95] overflow-hidden border-l-2 border-primary/20"
           >

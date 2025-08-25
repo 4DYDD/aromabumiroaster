@@ -28,15 +28,15 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Preload video untuk menghindari warning di console */}
-        {/* Preload foto untuk menghindari warning di console */}
+        {/* Preload video Full HD untuk semua device */}
         <link
           rel="preload"
           as="fetch"
-          href="/video/falling_coffee_beans.mp4"
+          href="/video/fullhd_falling_coffee_beans.mp4"
           type="video/mp4"
           crossOrigin="anonymous"
         />
+        {/* Preload foto untuk menghindari warning di console */}
         <link
           rel="preload"
           as="fetch"
